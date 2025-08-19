@@ -27,7 +27,7 @@ contract TicketNft is ERC721, Ownable {
         string memory symbol_,
         string memory imageUri_
     ) ERC721(name_, symbol_) Ownable(msg.sender) {
-        require(bytes(imageUri).length > 0, "imageUri required");
+        require(bytes(imageUri_).length > 0, "imageUri required");
         imageUri = imageUri_;
     }
 

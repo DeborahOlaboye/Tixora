@@ -2,15 +2,19 @@
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
 
-Try running some of the following tasks:
+
+
+npx hardhat ignition deploy ignition/modules/EventTicketing.ts --network lisk_sepolia --verify
 
 ```shell
 
-Deployed Addresses
+Deployment Results:
 
-EventTicketing#TicketNft - 0x174000Ff3f26F7f40d683992802E1Db6394197B6
-EventTicketing#EventTicketing - 0x65f731E7f39C1432EE63CF1dde2e000fFa205ccB
-EventTicketing#TicketResaleMarket - 0x8a3c8C2e45E70E35072472CDDb4E7a7eE44DBf2d
+The contracts were successfully deployed to Lisk Sepolia testnet:
+
+•  TicketNft: 0xA088b2870ADD6dFeA3D992E2d0b4a56Fa548Fa45
+•  EventTicketing: 0x711c2Ea08a4d9A1230479A000942EB6C8c2aE928
+•  TicketResaleMarket: 0x41cf8c8dA067c77faAEbEd85077c37593C34CA68
 
 ```
 
