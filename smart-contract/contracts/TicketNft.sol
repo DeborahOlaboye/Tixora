@@ -51,7 +51,7 @@ contract TicketNft is ERC721, Ownable {
         string memory description,
         uint256 eventTimestamp,
         string memory location
-    ) external returns (uint256) {
+    ) external onlyMinter returns (uint256) {
         require(to != address(0), "zero address");
         _tokenIds++;
         uint256 newTokenId = _tokenIds;

@@ -260,18 +260,29 @@ contract EventTicketing is Ownable, ReentrancyGuard {
         return Status.Upcoming;
     }
 
-    function getAllTickets(uint256 startIndex, uint256 endIndex) external view returns (EventTicketingLib.Ticket[] memory) {
-        require(endIndex > startIndex, "endIndex must be greater than startIndex");
-        require(endIndex <= _ticketIds, "endIndex exceeds total tickets");
-
-        uint256 length = endIndex - startIndex;
-        EventTicketingLib.Ticket[] memory allTickets = new EventTicketingLib.Ticket[](length);
-
-        for (uint256 i = startIndex; i < endIndex; i++) {
-            allTickets[i - startIndex] = tickets[i];
+    /// @notice Get the most recent tickets (max 100) to prevent gas limit issues
+    function getRecentTickets() external view returns (EventTicketingLib.Ticket[] memory) {
+        uint256 totalTickets = _ticketIds;
+        if (totalTickets == 0) {
+            return new EventTicketingLib.Ticket[](0);
         }
+        
+        // Return last 100 tickets or all tickets if less than 100
+        uint256 limit = totalTickets > 100 ? 100 : totalTickets;
+        uint256 startIndex = totalTickets > 100 ? totalTickets - 100 + 1 : 1;
+        
+        EventTicketingLib.Ticket[] memory recentTickets = new EventTicketingLib.Ticket[](limit);
+        
+        for (uint256 i = 0; i < limit; i++) {
+            recentTickets[i] = tickets[startIndex + i];
+        }
+        
+        return recentTickets;
+    }
 
-        return allTickets;
+    /// @notice Get total number of tickets created
+    function getTotalTickets() external view returns (uint256) {
+        return _ticketIds;
     }
 
     // ---- Safety ----

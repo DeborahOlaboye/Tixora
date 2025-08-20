@@ -25,10 +25,12 @@ contract TicketResaleMarket is ReentrancyGuard {
     }
 
     // ---- Storage ----
+    address public owner;
     IEventTicketing public eventTicketing;
     IERC721 public ticketNft;
     uint16 public royaltyBps;               // e.g., 250 = 2.5%
     address payable public feeRecipient;
+    uint256 public maxPrice = 1000 ether;   // Maximum listing price (1000 CELO)
 
     // tokenId => Listing
     mapping(uint256 => Listing) public listings;
@@ -50,6 +52,14 @@ contract TicketResaleMarket is ReentrancyGuard {
     );
     event RoyaltyUpdated(uint16 newRoyaltyBps);
     event FeeRecipientUpdated(address indexed newRecipient);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event MaxPriceUpdated(uint256 newMaxPrice);
+
+    // ---- Modifiers ----
+    modifier onlyOwner() {
+        require(msg.sender == owner, "not owner");
+        _;
+    }
 
     // ---- Constructor ----
     constructor(
@@ -58,6 +68,7 @@ contract TicketResaleMarket is ReentrancyGuard {
         address payable feeRecipient_,
         uint16 royaltyBps_
     ) ReentrancyGuard() {
+        owner = msg.sender;
         require(eventTicketingAddress != address(0), "EventTicketing address required");
         require(ticketNftAddress != address(0), "TicketNft address required");
         require(feeRecipient_ != address(0), "feeRecipient required");
@@ -69,24 +80,36 @@ contract TicketResaleMarket is ReentrancyGuard {
         royaltyBps = royaltyBps_;
     }
 
-    // ---- Admin (unchanged behavior) ----
-    function setRoyalty(uint16 newRoyaltyBps) external {
+    // ---- Admin Functions ----
+    function setRoyalty(uint16 newRoyaltyBps) external onlyOwner {
         require(newRoyaltyBps <= 10_000, "royalty too high");
         royaltyBps = newRoyaltyBps;
         emit RoyaltyUpdated(newRoyaltyBps);
     }
 
-    function setFeeRecipient(address payable newRecipient) external {
+    function setFeeRecipient(address payable newRecipient) external onlyOwner {
         require(newRecipient != address(0), "zero addr");
         feeRecipient = newRecipient;
         emit FeeRecipientUpdated(newRecipient);
+    }
+
+    function setMaxPrice(uint256 newMaxPrice) external onlyOwner {
+        require(newMaxPrice > 0, "max price must be > 0");
+        maxPrice = newMaxPrice;
+        emit MaxPriceUpdated(newMaxPrice);
+    }
+
+    function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
     }
 
     // ---- Resale Lifecycle ----
 
     /// @notice List a ticket for resale (owner must approve this contract).
     function listTicket(uint256 tokenId, uint256 price) external {
-        require(price > 0, "price must be > 0");
+        require(price > 0 && price <= maxPrice, "invalid price");
         require(ticketNft.ownerOf(tokenId) == msg.sender, "not owner");
         require(
             ticketNft.isApprovedForAll(msg.sender, address(this)) ||

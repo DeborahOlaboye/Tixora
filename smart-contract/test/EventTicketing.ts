@@ -8,7 +8,7 @@ describe("EventTicketing (native CELO)", function () {
     const [owner, creator, user] = await hre.ethers.getSigners();
 
     const TicketNft = await hre.ethers.getContractFactory("TicketNft");
-    const nft = await TicketNft.deploy("TicketNFT", "TNFT");
+    const nft = await TicketNft.deploy("TicketNFT", "TNFT", "https://example.com/ticket-image.png");
 
     const EventTicketing = await hre.ethers.getContractFactory("EventTicketing");
     const sale = await EventTicketing.deploy(nft.target, "0x6Cac76f9e8d6F55b3823D8aEADEad970a5441b67", 250);
