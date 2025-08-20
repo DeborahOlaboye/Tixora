@@ -3,6 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import { vars } from "hardhat/config";
 
 const PRIVATE_KEY = vars.get("PRIVATE_KEY");
+const API_KEY = vars.get("ETHERSCAN_API_KEY"); // from etherscan
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -10,35 +11,38 @@ const config: HardhatUserConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
+        runs: 200,
       },
-      viaIR: true // <--- This enables the Yul Intermediate Representation
-    }
+      viaIR: true, // <--- This enables the Yul Intermediate Representation
+    },
   },
   networks: {
-    lisk_sepolia: {
-      url: "https://rpc.sepolia-api.lisk.com",
-      accounts: [PRIVATE_KEY]
-    }
+    celo_sepolia: {
+      url: "https://forno.celo-sepolia.celo-testnet.org",
+      accounts: {
+        mnemonic: PRIVATE_KEY,
+        path: "m/44'/52752'/0'/0",
+      },
+      chainId: 11142220,
+    },
   },
   etherscan: {
-    // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
     apiKey: {
-      "lisk-sepolia": "123"
+      celo_sepolia: API_KEY,
     },
     customChains: [
       {
-          network: "lisk-sepolia",
-          chainId: 4202,
-          urls: {
-              apiURL: "https://sepolia-blockscout.lisk.com/api",
-              browserURL: "https://sepolia-blockscout.lisk.com"
-          }
-      }
-    ]
+        network: "celo_sepolia",
+        chainId: 11142220,
+        urls: {
+          apiURL: "https://api-sepolia.celoscan.io/api", // info from celodocs.io
+          browserURL: "https://sepolia.celoscan.io",
+        },
+      },
+    ],
   },
   sourcify: {
-    enabled: false
+    enabled: false,
   },
 };
 
