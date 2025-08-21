@@ -185,7 +185,7 @@ contract EventTicketing is Ownable, ReentrancyGuard {
         emit TicketClosed(ticketId, msg.sender);
     }
 
-    function cancelTicket(uint256 ticketId) external {
+    function cancelTicket(uint256 ticketId) external nonReentrant {
         EventTicketingLib.Ticket storage t = tickets[ticketId];
         require(t.id != 0, "ticket not found");
         require(msg.sender == t.creator || msg.sender == owner(), "not authorized");
@@ -194,6 +194,17 @@ contract EventTicketing is Ownable, ReentrancyGuard {
         t.canceled = true;
         t.closed = true;
         emit TicketCanceled(ticketId, msg.sender);
+
+        // Automatically refund all registrants
+        address[] memory regs = registrants[ticketId];
+        for (uint256 i = 0; i < regs.length; i++) {
+            address payable refundee = payable(regs[i]);
+            uint256 amt = paidAmount[ticketId][refundee];
+            if (amt > 0) {
+                EventTicketingLib.processRefund(paidAmount, tickets, ticketId, refundee, amt);
+                emit RefundClaimed(ticketId, refundee, amt);
+            }
+        }
     }
 
     // ---- Settlement ----
@@ -205,6 +216,21 @@ contract EventTicketing is Ownable, ReentrancyGuard {
         require(block.timestamp >= t.eventTimestamp, "event not passed");
         require(!t.proceedsWithdrawn, "already withdrawn");
 
+        _settleProceeds(ticketId, t);
+    }
+
+    /// @notice Anyone can call to settle proceeds once event has passed and not canceled
+    function finalizeEvent(uint256 ticketId) external nonReentrant {
+        EventTicketingLib.Ticket storage t = tickets[ticketId];
+        require(t.id != 0, "ticket not found");
+        require(!t.canceled, "ticket canceled");
+        require(block.timestamp >= t.eventTimestamp, "event not passed");
+        require(!t.proceedsWithdrawn, "already withdrawn");
+
+        _settleProceeds(ticketId, t);
+    }
+
+    function _settleProceeds(uint256 ticketId, EventTicketingLib.Ticket storage t) internal {
         uint256 net = EventTicketingLib.calculateNetAmount(t);
         uint256 fee = EventTicketingLib.calculateFee(net, platformFeeBps);
         uint256 toCreator = net - fee;
