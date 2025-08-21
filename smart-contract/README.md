@@ -12,9 +12,9 @@ npx hardhat ignition deploy ignition/modules/EventTicketing.ts --network lisk_se
 
 Deployed Addresses
 
-EventTicketing#TicketNft - 0x2dE336F1e557b5E419dD7aB07885538549fb62B0
-EventTicketing#EventTicketing - 0xb859cD81475B06B814D59920bB3f242F8864bB7A
-EventTicketing#TicketResaleMarket - 0x1a5F26cD65Baf462D32236872BDBC0Fa651A21D5
+EventTicketing#TicketNft - 0x9f2595C4fC87903F940c1eb7503507EF78a07E72
+EventTicketing#EventTicketing - 0xdE254352681d843375895186a88DAF82B2930C7b
+EventTicketing#TicketResaleMarket - 0x124c6F40571dFc3F2A03c17d2C502BB59F75dff6
 
 ```
 
