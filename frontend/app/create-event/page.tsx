@@ -18,7 +18,18 @@ import { WalletConnectButton } from "@/components/wallet-connect-button"
 
 export default function CreateEvent() {
   const { address, isConnected } = useAccount()
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    date: "",
+    time: "",
+    location: "",
+    price: "",
+    totalSupply: "",
+    bannerImage: null as File | null,
+  })
 
   // Redirect to landing page if wallet is not connected
   if (!isConnected) {
@@ -32,17 +43,6 @@ export default function CreateEvent() {
       </div>
     )
   }
-  const router = useRouter()
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    date: "",
-    time: "",
-    location: "",
-    price: "",
-    totalSupply: "",
-    bannerImage: null as File | null,
-  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

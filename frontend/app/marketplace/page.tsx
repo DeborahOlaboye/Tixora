@@ -250,11 +250,10 @@ export default function Marketplace() {
       )
     }
 
-    if (sortBy === "trending") {
-      events = events.filter((event) => event.trending)
-    } else if (sortBy === "recent") {
+    if (sortBy === "recent") {
       events = [...events].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     }
+    // Note: Removed trending filter to ensure events always show in categories
 
     return events
   }
@@ -442,28 +441,28 @@ export default function Marketplace() {
                 onClick={() => setActiveTab("upcoming")}
                 className={activeTab === "upcoming" ? "bg-purple-600 text-white" : "text-slate-300 hover:text-white"}
               >
-                Upcoming Events ({upcomingEvents.length})
+                Upcoming Events
               </Button>
               <Button
                 variant={activeTab === "passed" ? "default" : "ghost"}
                 onClick={() => setActiveTab("passed")}
                 className={activeTab === "passed" ? "bg-green-600 text-white" : "text-slate-300 hover:text-white"}
               >
-                Passed ({pastEvents.length})
+                Passed
               </Button>
               <Button
                 variant={activeTab === "canceled" ? "default" : "ghost"}
                 onClick={() => setActiveTab("canceled")}
                 className={activeTab === "canceled" ? "bg-gray-600 text-white" : "text-slate-300 hover:text-white"}
               >
-                Canceled ({canceledEvents.length})
+                Canceled
               </Button>
               <Button
                 variant={activeTab === "closed" ? "default" : "ghost"}
                 onClick={() => setActiveTab("closed")}
                 className={activeTab === "closed" ? "bg-slate-600 text-white" : "text-slate-300 hover:text-white"}
               >
-                Closed ({closedEvents.length})
+                Closed
               </Button>
             </div>
           </div>
