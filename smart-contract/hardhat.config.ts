@@ -21,15 +21,10 @@ const config: HardhatUserConfig = {
       url: "https://forno.celo-sepolia.celo-testnet.org",
       accounts: [PRIVATE_KEY],
     },
-    lisk: {
-      url: "https://rpc.sepolia-api.lisk.com",
-      accounts: [PRIVATE_KEY],
-    }
   },
   etherscan: {
     apiKey: {
       celo: API_KEY,
-      lisk: API_KEY,
     },
     customChains: [
       {
@@ -39,15 +34,7 @@ const config: HardhatUserConfig = {
           apiURL: "https://api-celo-sepolia.celoscan.io/api",
           browserURL: "https://celo-sepolia.blockscout.com/",
         }
-      },
-      {
-        network: "lisk",
-        chainId: 4202,
-        urls: {
-          apiURL: "https://sepolia-blockscout.lisk.com/api",
-          browserURL: "https://sepolia-blockscout.lisk.com"
-        },
-      },
+      }
     ],
   },
   sourcify: {
