@@ -1,16 +1,32 @@
 "use client"
 
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount, useBalance } from "wagmi"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Plus, ShoppingBag, TicketIcon, Activity } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { WalletConnectButton } from "@/components/wallet-connect-button"
 
 export default function Dashboard() {
-  const { isConnected, address } = useWallet()
-  const router = useRouter()
+  const { address, isConnected } = useAccount()
+  const { data: balance } = useBalance({
+    address: address,
+  })
+
+  // Redirect to landing page if wallet is not connected
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 flex items-center justify-center">
+        <div className="text-center p-8 bg-slate-800/50 rounded-lg border border-purple-500/30 backdrop-blur-sm">
+          <h1 className="text-2xl font-bold text-white mb-4">Wallet Connection Required</h1>
+          <p className="text-slate-300 mb-6">Please connect your wallet to access the dashboard.</p>
+          <WalletConnectButton className="mx-auto" />
+        </div>
+      </div>
+    )
+  }
 
   const shortAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ""
 
@@ -111,9 +127,7 @@ export default function Dashboard() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <div className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full border border-purple-500/30">
-              <span className="text-sm font-medium text-purple-300">{shortAddress}</span>
-            </div>
+            <WalletConnectButton />
           </div>
         </div>
       </header>

@@ -23,7 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount } from 'wagmi'
 import { WalletConnectButton } from "@/components/wallet-connect-button"
 
 interface POAPBadge {
@@ -124,7 +124,7 @@ export function ProofOfAttendanceSystem() {
   const [showClaimDialog, setShowClaimDialog] = useState(false)
   const [showPOAPDialog, setShowPOAPDialog] = useState(false)
 
-  const { isConnected } = useWallet()
+  const { isConnected } = useAccount()
 
   const categories = ["all", "music", "conference", "art", "gaming", "sports"]
 

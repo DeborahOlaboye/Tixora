@@ -2,53 +2,37 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { WalletConnectButton } from "@/components/wallet-connect-button"
-import { useWallet } from "@/lib/wallet-context"
+import { ArrowRight, Calendar, MapPin, Users, Ticket, Star, Shield, Zap, Globe, RefreshCw } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { Calendar, MapPin, Users, Shield, Zap, RefreshCw, ArrowRight, Star, Ticket, Globe } from "lucide-react"
+import { useAccount } from "wagmi"
+import { WalletConnectButton } from "./wallet-connect-button"
 import Image from "next/image"
 import Link from "next/link"
+import eventsData from "@/data/events.json"
 
-const featuredEvents = [
-  {
-    id: 1,
-    title: "Web3 Music Festival 2024",
-    date: "Dec 15, 2024",
-    location: "Miami Beach, FL",
-    price: "25 CELO",
-    image: "/web3-music-festival-lights.png",
-    attendees: 5000,
-    category: "Music",
-    ticketsLeft: 1250,
-  },
-  {
-    id: 2,
-    title: "DeFi Conference Summit",
-    date: "Jan 20, 2025",
-    location: "San Francisco, CA",
-    price: "15 CELO",
-    image: "/defi-conference-blockchain-presentation.png",
-    attendees: 2500,
-    category: "Conference",
-    ticketsLeft: 800,
-  },
-  {
-    id: 3,
-    title: "NFT Art Gallery Opening",
-    date: "Feb 5, 2025",
-    location: "New York, NY",
-    price: "20 CELO",
-    image: "/nft-art-gallery.png",
-    attendees: 800,
-    category: "Art",
-    ticketsLeft: 200,
-  },
-]
+// Get featured events from the centralized events data
+const featuredEvents = eventsData.events
+  .filter(event => event.featured && event.status === "Upcoming")
+  .map(event => ({
+    id: event.id,
+    title: event.title,
+    date: new Date(event.date).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    }),
+    location: `${event.city}, ${event.country}`,
+    price: `${event.price} ${event.currency}`,
+    image: event.image,
+    attendees: event.totalTickets,
+    category: event.category,
+    ticketsLeft: event.totalTickets - event.soldTickets,
+  }))
 
 export function LandingPage() {
-  const { isConnected } = useWallet()
+  const { isConnected } = useAccount()
   const router = useRouter()
   const [currentEventIndex, setCurrentEventIndex] = useState(0)
 
@@ -76,7 +60,7 @@ export function LandingPage() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/docs" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="https://github.com/DIFoundation/Tixora/blob/main/README.md" className="text-muted-foreground hover:text-primary transition-colors">
               Docs
             </Link>
             <Link href="/resources" className="text-muted-foreground hover:text-primary transition-colors">
@@ -111,12 +95,12 @@ export function LandingPage() {
               never worry about counterfeits again.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 opacity-0 animate-slide-up animate-delay-400">
-              <WalletConnectButton className="text-lg px-8 py-4 animate-pulse-glow" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 opacity-0 animate-slide-up animate-delay-400">
+              <WalletConnectButton className="w-full sm:w-auto min-w-[200px] text-lg px-8 py-4 animate-pulse-glow h-12" />
               <Button
                 variant="outline"
                 size="lg"
-                className="text-lg px-8 py-4 glow-border hover:bg-primary/10 bg-transparent"
+                className="w-full sm:w-auto min-w-[200px] text-lg px-8 py-4 glow-border hover:bg-primary/10 bg-transparent h-12"
                 onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
               >
                 Learn More <ArrowRight className="ml-2 h-5 w-5" />
@@ -147,8 +131,8 @@ export function LandingPage() {
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Featured Events</h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredEvents.map((event, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredEvents.slice(0, 4).map((event, index) => (
               <Card
                 key={event.id}
                 className="group hover:scale-105 transition-all duration-300 cursor-pointer bg-slate-800/90 border-slate-700 hover:border-primary/50 backdrop-blur-sm"

@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount } from 'wagmi'
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,9 +14,10 @@ import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
 import { Upload } from "lucide-react"
+import { WalletConnectButton } from "@/components/wallet-connect-button"
 
 export default function CreateEvent() {
-  const { isConnected, address } = useWallet()
+  const { address, isConnected } = useAccount()
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -29,6 +30,19 @@ export default function CreateEvent() {
     totalSupply: "",
     bannerImage: null as File | null,
   })
+
+  // Redirect to landing page if wallet is not connected
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 flex items-center justify-center">
+        <div className="text-center p-8 bg-slate-800/50 rounded-lg border border-purple-500/30 backdrop-blur-sm">
+          <h1 className="text-2xl font-bold text-white mb-4">Wallet Connection Required</h1>
+          <p className="text-slate-300 mb-6">Please connect your wallet to create events.</p>
+          <WalletConnectButton className="mx-auto" />
+        </div>
+      </div>
+    )
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,7 +87,7 @@ export default function CreateEvent() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground">{shortAddress}</span>
+            <WalletConnectButton />
           </div>
         </div>
       </header>

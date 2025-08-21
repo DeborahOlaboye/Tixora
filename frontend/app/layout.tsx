@@ -3,12 +3,14 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
-import { WalletProvider } from "@/lib/wallet-context"
+import { Providers } from "@/lib/providers"
 
 export const metadata: Metadata = {
   title: "Tixora - Decentralized Event Ticketing",
   description: "NFT-based event ticketing platform built on Ethereum",
-  generator: "v0.app",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
@@ -28,7 +30,7 @@ html {
         `}</style>
       </head>
       <body>
-        <WalletProvider>{children}</WalletProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

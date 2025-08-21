@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -170,11 +174,11 @@
   }
 
   .animate-neon-pulse {
-    animation: neonPulse 2s ease-in-out infinite alternate;
+    animation: neonPulse 4s ease-in-out infinite alternate;
   }
 
   .animate-pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite;
+    animation: pulseGlow 4s ease-in-out infinite;
   }
 
   .gradient-text {
@@ -224,7 +228,7 @@
   }
 
   .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
+    animation: glow 4s ease-in-out infinite alternate;
   }
 
   .animate-pulse-slow {
@@ -296,24 +300,24 @@
 
 @keyframes neonPulse {
   0% {
-    text-shadow: 0 0 5px var(--color-neon-purple), 0 0 10px var(--color-neon-purple), 0 0 15px var(--color-neon-purple);
+    opacity: 1;
   }
   100% {
-    text-shadow: 0 0 10px var(--color-neon-blue), 0 0 20px var(--color-neon-blue), 0 0 30px var(--color-neon-blue);
+    opacity: 0.8;
   }
 }
 
 @keyframes pulseGlow {
   0% {
-    box-shadow: 0 0 5px var(--color-neon-purple), 0 0 10px var(--color-neon-purple);
+    opacity: 1;
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 20px var(--color-neon-blue), 0 0 30px var(--color-neon-blue), 0 0 40px var(--color-neon-purple);
-    transform: scale(1.02);
+    opacity: 0.9;
+    transform: scale(1.01);
   }
   100% {
-    box-shadow: 0 0 5px var(--color-neon-purple), 0 0 10px var(--color-neon-purple);
+    opacity: 1;
     transform: scale(1);
   }
 }
@@ -355,9 +359,9 @@
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 20px var(--color-neon-purple);
+    opacity: 1;
   }
   to {
-    box-shadow: 0 0 30px var(--color-neon-blue), 0 0 40px var(--color-neon-purple);
+    opacity: 0.8;
   }
 }
