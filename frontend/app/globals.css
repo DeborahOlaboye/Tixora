@@ -300,24 +300,24 @@
 
 @keyframes neonPulse {
   0% {
-    text-shadow: 0 0 3px var(--color-neon-purple), 0 0 6px var(--color-neon-purple), 0 0 9px var(--color-neon-purple);
+    opacity: 1;
   }
   100% {
-    text-shadow: 0 0 5px var(--color-neon-blue), 0 0 10px var(--color-neon-blue), 0 0 15px var(--color-neon-blue);
+    opacity: 0.8;
   }
 }
 
 @keyframes pulseGlow {
   0% {
-    box-shadow: 0 0 3px var(--color-neon-purple), 0 0 6px var(--color-neon-purple);
+    opacity: 1;
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 8px var(--color-neon-blue), 0 0 12px var(--color-neon-blue), 0 0 16px var(--color-neon-purple);
+    opacity: 0.9;
     transform: scale(1.01);
   }
   100% {
-    box-shadow: 0 0 3px var(--color-neon-purple), 0 0 6px var(--color-neon-purple);
+    opacity: 1;
     transform: scale(1);
   }
 }
@@ -359,9 +359,9 @@
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 8px var(--color-neon-purple);
+    opacity: 1;
   }
   to {
-    box-shadow: 0 0 12px var(--color-neon-blue), 0 0 16px var(--color-neon-purple);
+    opacity: 0.8;
   }
 }

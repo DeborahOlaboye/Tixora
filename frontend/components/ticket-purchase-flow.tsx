@@ -20,7 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount } from 'wagmi'
 import { WalletConnectButton } from "@/components/wallet-connect-button"
 
 interface EventData {
@@ -72,7 +72,7 @@ export function TicketPurchaseFlow({ eventId }: { eventId: string }) {
   const [transactionHash, setTransactionHash] = useState("")
   const [ticketTokenIds, setTicketTokenIds] = useState<string[]>([])
 
-  const { isConnected, address, connectWallet } = useWallet()
+  const { isConnected, address } = useAccount()
 
   const event = mockEvent // In real app, fetch by eventId
 
@@ -92,12 +92,11 @@ export function TicketPurchaseFlow({ eventId }: { eventId: string }) {
     }
   }
 
-  const handleWalletConnect = async (walletType: "metamask" | "walletconnect" | "coinbase") => {
-    try {
-      await connectWallet(walletType)
+  const handleWalletConnect = () => {
+    // With Rainbow Kit, wallet connection is handled by the WalletConnectButton component
+    // Once connected, the user can proceed to confirm
+    if (isConnected) {
       setCurrentStep("confirm")
-    } catch (error) {
-      console.error("Failed to connect wallet:", error)
     }
   }
 

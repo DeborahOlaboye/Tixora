@@ -121,7 +121,7 @@ export function EventDiscovery() {
               return (
                 <div
                   key={index}
-                  className="flex items-center gap-3 p-6 rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in-scale"
+                  className="flex items-center gap-3 p-6 rounded-xl bg-white border border-gray-200 hover:opacity-90 transition-all duration-300 animate-fade-in-scale"
                   style={{ animationDelay: `${0.3 + index * 0.1}s` }}
                 >
                   <Icon className={`w-6 h-6 ${feature.color}`} />
@@ -186,7 +186,7 @@ export function EventDiscovery() {
             {filteredEvents.map((event, index) => (
               <Card
                 key={event.id}
-                className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group animate-fade-in-scale border-gray-200 bg-white"
+                className="overflow-hidden hover:opacity-90 transition-all duration-300 cursor-pointer group animate-fade-in-scale border-gray-200 bg-white"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative">

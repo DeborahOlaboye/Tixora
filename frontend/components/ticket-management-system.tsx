@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Label } from "@/components/ui/label"
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount } from 'wagmi'
 import { WalletConnectButton } from "@/components/wallet-connect-button"
 import Link from "next/link"
 import Image from "next/image"
@@ -42,7 +42,7 @@ export function TicketManagementSystem() {
   const [isTransferring, setIsTransferring] = useState(false)
   const [purchasedTickets, setPurchasedTickets] = useState<NFTTicket[]>([])
 
-  const { isConnected, address } = useWallet()
+  const { isConnected, address } = useAccount()
 
   // Load purchased tickets from localStorage
   useEffect(() => {
@@ -178,9 +178,7 @@ export function TicketManagementSystem() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <div className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full border border-purple-500/30">
-              <span className="text-sm font-medium text-purple-300">{shortAddress}</span>
-            </div>
+            <WalletConnectButton />
           </div>
         </div>
       </header>
