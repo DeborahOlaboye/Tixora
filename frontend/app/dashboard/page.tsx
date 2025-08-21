@@ -1,6 +1,6 @@
 "use client"
 
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount } from "wagmi"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,7 +9,7 @@ import Link from "next/link"
 import Image from "next/image"
 
 export default function Dashboard() {
-  const { isConnected, address } = useWallet()
+  const { isConnected, address } = useAccount()
   const router = useRouter()
 
   const shortAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ""

@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
-import { WalletProvider } from "@/lib/wallet-context"
+import { Providers } from "@/lib/providers"
 
 export const metadata: Metadata = {
   title: "Tixora - Decentralized Event Ticketing",
@@ -28,7 +28,7 @@ html {
         `}</style>
       </head>
       <body>
-        <WalletProvider>{children}</WalletProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

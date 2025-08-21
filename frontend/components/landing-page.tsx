@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { WalletConnectButton } from "@/components/wallet-connect-button"
-import { useWallet } from "@/lib/wallet-context"
+import { useAccount } from "wagmi"
 import { useRouter } from "next/navigation"
 import { Calendar, MapPin, Users, Shield, Zap, RefreshCw, ArrowRight, Star, Ticket, Globe } from "lucide-react"
 import Image from "next/image"
@@ -48,7 +48,7 @@ const featuredEvents = [
 ]
 
 export function LandingPage() {
-  const { isConnected } = useWallet()
+  const { isConnected } = useAccount()
   const router = useRouter()
   const [currentEventIndex, setCurrentEventIndex] = useState(0)
 
