@@ -17,26 +17,35 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    celo_sepolia: {
+    celo: {
       url: "https://forno.celo-sepolia.celo-testnet.org",
-      accounts: {
-        mnemonic: PRIVATE_KEY,
-        path: "m/44'/52752'/0'/0",
-      },
-      chainId: 11142220,
+      accounts: [PRIVATE_KEY],
     },
+    lisk: {
+      url: "https://rpc.sepolia-api.lisk.com",
+      accounts: [PRIVATE_KEY],
+    }
   },
   etherscan: {
     apiKey: {
-      celo_sepolia: API_KEY,
+      celo: API_KEY,
+      lisk: API_KEY,
     },
     customChains: [
       {
-        network: "celo_sepolia",
+        network: "celo",
         chainId: 11142220,
         urls: {
-          apiURL: "https://api-sepolia.celoscan.io/api", // info from celodocs.io
-          browserURL: "https://sepolia.celoscan.io",
+          apiURL: "https://api-celo-sepolia.celoscan.io/api",
+          browserURL: "https://celo-sepolia.blockscout.com/",
+        }
+      },
+      {
+        network: "lisk",
+        chainId: 4202,
+        urls: {
+          apiURL: "https://sepolia-blockscout.lisk.com/api",
+          browserURL: "https://sepolia-blockscout.lisk.com"
         },
       },
     ],

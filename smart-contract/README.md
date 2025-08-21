@@ -8,13 +8,13 @@ npx hardhat ignition deploy ignition/modules/EventTicketing.ts --network lisk_se
 
 ```shell
 
-Deployment Results:
+[ EventTicketing ] successfully deployed 🚀
 
-The contracts were successfully deployed to Lisk Sepolia testnet:
+Deployed Addresses
 
-•  TicketNft: 0xA088b2870ADD6dFeA3D992E2d0b4a56Fa548Fa45
-•  EventTicketing: 0x711c2Ea08a4d9A1230479A000942EB6C8c2aE928
-•  TicketResaleMarket: 0x41cf8c8dA067c77faAEbEd85077c37593C34CA68
+EventTicketing#TicketNft - 0x2dE336F1e557b5E419dD7aB07885538549fb62B0
+EventTicketing#EventTicketing - 0xb859cD81475B06B814D59920bB3f242F8864bB7A
+EventTicketing#TicketResaleMarket - 0x1a5F26cD65Baf462D32236872BDBC0Fa651A21D5
 
 ```
 
