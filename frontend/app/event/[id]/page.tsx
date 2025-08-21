@@ -1,8 +1,9 @@
-import { TicketPurchaseFlow } from "@/components/ticket-purchase-flow"
-import { useParams } from "react-router-dom"
-import { useState } from "react"
-import { useAccount } from "wagmi"
-import WalletConnectButton from "@/components/wallet-connect-button"
+"use client"
+import { TicketPurchaseFlow } from "@/components/ticket-purchase-flow";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useAccount } from "wagmi";
+import {WalletConnectButton} from "@/components/wallet-connect-button";
 
 export default function EventDetailPage() {
   const params = useParams()
