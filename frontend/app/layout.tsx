@@ -8,7 +8,9 @@ import { Providers } from "@/lib/providers"
 export const metadata: Metadata = {
   title: "Tixora - Decentralized Event Ticketing",
   description: "NFT-based event ticketing platform built on Ethereum",
-  generator: "v0.app",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
